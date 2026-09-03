@@ -1,0 +1,6 @@
+# .gitignore file banayein
+echo "images/" >> .gitignore
+echo "*.jpeg" >> .gitignore
+echo "*.jpg" >> .gitignore
+echo "*.png" >> .gitignore
+echo "birthday-music.mp3" >> .gitignore

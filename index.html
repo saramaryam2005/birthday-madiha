@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Happy Birthday for Madiha Maryam 🌟</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Plus+Jakarta+Sans:wght@300;400;600;700&family=Playfair+Display:ital,wght@1,500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-midnight: #0b0817;
+      --card-bg: rgba(22, 17, 43, 0.82);
+      --gold-primary: #e6b864;
+      --gold-light: #fef0cd;
+      --text-muted: #b8afc8;
+      --accent-glow: rgba(230, 184, 100, 0.35);
+      --border-glass: rgba(230, 184, 100, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg-midnight);
+      color: #ffffff;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #stars-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Floating Music Control */
+    .music-disk-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      background: rgba(22, 17, 43, 0.85);
+      border: 1px solid var(--gold-primary);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 0 18px var(--accent-glow);
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .music-disk-btn:hover {
+      transform: scale(1.08);
+      box-shadow: 0 0 25px rgba(230, 184, 100, 0.6);
+    }
+    .music-disk-btn.playing {
+      animation: rotateDisk 4s linear infinite;
+    }
+    @keyframes rotateDisk {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .section-view {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      animation: fadeIn 0.8s ease forwards;
+    }
+    .section-view.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .glass-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: 28px;
+      padding: 45px 35px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 35px var(--accent-glow);
+      text-align: center;
+    }
+
+    .title-cinzel {
+      font-family: 'Cinzel', serif;
+      letter-spacing: 2.5px;
+      color: var(--gold-light);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #d4a34b, #f3d489, #c49132);
+      color: #120b24;
+      border: none;
+      padding: 14px 34px;
+      font-size: 1rem;
+      font-weight: 700;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(212, 163, 75, 0.4);
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 25px;
+      letter-spacing: 1px;
+      text-decoration: none;
+    }
+    .btn-gold:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(212, 163, 75, 0.6);
+    }
+
+    /* Keypad */
+    .pin-display-wrap { margin: 30px 0; }
+    .pass-dots {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 25px;
+    }
+    .dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--gold-primary);
+      transition: all 0.25s ease;
+    }
+    .dot.filled {
+      background: var(--gold-primary);
+      box-shadow: 0 0 12px var(--gold-primary);
+    }
+    .keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 70px);
+      gap: 15px;
+      justify-content: center;
+      margin: 0 auto;
+    }
+    .key-btn {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .key-btn:hover {
+      background: rgba(230, 184, 100, 0.2);
+      border-color: var(--gold-primary);
+    }
+
+    .date-badge {
+      display: inline-block;
+      padding: 6px 18px;
+      background: rgba(230, 184, 100, 0.12);
+      border: 1px solid var(--gold-primary);
+      border-radius: 30px;
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      margin-bottom: 20px;
+    }
+
+    /* Traits Grid */
+    .memories-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 22px;
+      margin: 35px 0 25px;
+    }
+
+    .trait-card {
+      background: transparent;
+      height: 250px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .photo-flip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 18px;
+      margin: 30px 0 20px;
+    }
+
+    .photo-flip-card {
+      background: transparent;
+      height: 380px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    /* 3D Flip Engine */
+    .flip-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.75s cubic-bezier(0.4, 0.2, 0.2, 1);
+      transform-style: preserve-3d;
+    }
+    .photo-flip-card:hover .flip-inner,
+    .trait-card:hover .flip-inner { 
+      transform: rotateY(180deg); 
+    }
+
+    .flip-front, .flip-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--border-glass);
+      overflow: hidden;
+    }
+
+    .flip-front { 
+      background: linear-gradient(145deg, #1f173b, #120c26); 
+      padding: 24px 18px;
+      box-shadow: inset 0 0 25px rgba(230, 184, 100, 0.08);
+    }
+    .front-quote-icon {
+      font-size: 2.2rem;
+      margin-bottom: 12px;
+    }
+    .front-quote-title {
+      color: var(--gold-light);
+      font-size: 1.15rem;
+      font-family: 'Cinzel', serif;
+      margin-bottom: 8px;
+    }
+    .front-quote-text {
+      font-size: 0.88rem;
+      line-height: 1.6;
+      color: #dfd7ed;
+      margin-bottom: 15px;
+    }
+    .disclose-btn-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(230, 184, 100, 0.15);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      box-shadow: 0 0 10px rgba(230, 184, 100, 0.2);
+    }
+
+    .flip-back {
+      background: #0d091a;
+      transform: rotateY(180deg);
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 25px var(--accent-glow);
+      padding: 0 !important;
+    }
+    .flip-back img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+    .photo-revealed-tag {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      background: rgba(11, 8, 23, 0.85);
+      border: 1px solid var(--border-glass);
+      backdrop-filter: blur(8px);
+      padding: 6px 8px;
+      border-radius: 12px;
+      font-size: 0.82rem;
+      color: var(--gold-light);
+      font-weight: 600;
+      text-align: center;
+    }
+
+    /* Scratch Card */
+    .scratch-container {
+      position: relative;
+      width: 320px;
+      height: 180px;
+      margin: 30px auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .secret-message {
+      position: absolute;
+      inset: 0;
+      background: #1e153b;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      border: 2px dashed var(--gold-primary);
+      border-radius: 16px;
+    }
+    #scratchCanvas { position: absolute; top: 0; left: 0; cursor: crosshair; }
+
+    /* Modal Backdrop */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 2, 10, 0.85);
+      z-index: 999;
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    /* Parchment Letter */
+    .parchment {
+      background: #fdfbf7;
+      color: #2b221a;
+      border-radius: 8px;
+      padding: 40px 35px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+      text-align: left;
+      line-height: 1.9;
+      font-size: 1.1rem;
+      border-left: 6px solid #d4a34b;
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* Floating Balloons Animation */
+    .balloon-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 99;
+      overflow: hidden;
+      display: none;
+    }
+    .floating-balloon {
+      position: absolute;
+      bottom: -120px;
+      font-size: 2.8rem;
+      animation: riseBalloon 7s ease-in forwards;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    }
+    @keyframes riseBalloon {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+      15% { opacity: 0.9; }
+      85% { opacity: 0.9; }
+      100% { transform: translateY(-115vh) rotate(15deg); opacity: 0; }
+    }
+
+    /* Typewriter Cursor */
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.1em;
+      background: #7d591b;
+      margin-left: 3px;
+      vertical-align: text-bottom;
+      animation: blinkCursor 0.7s infinite;
+    }
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* Envelope Opening State */
+    .letter-envelope-state {
+      margin: 20px auto;
+    }
+    .envelope-icon {
+      font-size: 5.5rem;
+      cursor: pointer;
+      display: inline-block;
+      transition: transform 0.3s;
+      animation: gentleBounce 2s infinite ease-in-out;
+    }
+    @keyframes gentleBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* One More Surprise Styles */
+    .surprise-gift-box {
+      font-size: 6rem;
+      cursor: pointer;
+      display: inline-block;
+      margin: 25px auto 10px;
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      user-select: none;
+      filter: drop-shadow(0 0 25px rgba(230, 184, 100, 0.5));
+    }
+    .surprise-gift-box:hover {
+      transform: scale(1.15) rotate(4deg);
+    }
+    .floating-poppers {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      font-size: 2.2rem;
+      margin: 10px 0;
+    }
+
+    /* Realistic Multi-Tier Celebration Cake */
+    .cake-wrapper {
+      position: relative;
+      width: 280px;
+      height: 250px;
+      margin: 35px auto 25px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+    }
+
+    .cake-base-plate {
+      width: 260px;
+      height: 14px;
+      background: linear-gradient(to right, #d4a34b, #fef0cd, #c49132);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+      position: relative;
+      z-index: 1;
+    }
+
+    .cake-layer-bottom {
+      width: 220px;
+      height: 75px;
+      background: linear-gradient(180deg, #3d2352 0%, #201331 100%);
+      border-radius: 14px 14px 4px 4px;
+      border: 2px solid var(--border-glass);
+      position: relative;
+      box-shadow: inset 0 8px 0 rgba(230, 184, 100, 0.3);
+      z-index: 2;
+    }
+
+    .cake-layer-top {
+      width: 155px;
+      height: 65px;
+      background: linear-gradient(180deg, #4d2e67 0%, #2a1a40 100%);
+      border-radius: 14px 14px 4px 4px;
+      border: 2px solid var(--border-glass);
+      position: relative;
+      box-shadow: inset 0 8px 0 rgba(230, 184, 100, 0.4);
+      z-index: 3;
+    }
+
+    .cake-candles-row {
+      position: absolute;
+      top: 15px;
+      display: flex;
+      gap: 24px;
+      z-index: 4;
+    }
+
+    .cake-candle {
+      width: 14px;
+      height: 65px;
+      background: repeating-linear-gradient(45deg, #fdfbf7, #fdfbf7 6px, #e6b864 6px, #e6b864 12px);
+      border-radius: 4px 4px 0 0;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+    }
+
+    .cake-candle:nth-child(2) {
+      height: 75px;
+      top: -10px;
+    }
+
+    .golden-flame {
+      position: absolute;
+      top: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 24px;
+      background: radial-gradient(circle at 50% 80%, #ffffff, #ffe478 50%, #f39c12 90%);
+      border-radius: 50% 50% 20% 20%;
+      box-shadow: 0 0 18px #ffd043, 0 0 30px #f39c12;
+      animation: flickerLight 0.1s infinite alternate;
+      cursor: pointer;
+      transition: all 0.5s ease;
+    }
+    @keyframes flickerLight {
+      0% { transform: translateX(-50%) scale(1) rotate(-1deg); }
+      100% { transform: translateX(-50%) scale(1.08) rotate(1.5deg); }
+    }
+    .flame-extinguished {
+      opacity: 0 !important;
+      transform: translateX(-50%) scale(0.2) translateY(-10px) !important;
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- Audio Element & Floating Toggle Disc -->
+  <audio id="bgAudio" loop preload="auto">
+    <source src="birthday-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="music-disk-btn" id="musicToggleBtn" onclick="toggleAudio()" title="Play / Pause Music">
+    <span id="musicIcon" style="font-size: 1.3rem;">🎵</span>
+  </div>
+
+  <div class="wrapper">
+
+    <!-- 1. CIPHER PORTAL (PIN: 0409) -->
+    <section class="section-view active" id="view-portal">
+      <div class="glass-box" style="max-width: 440px;">
+        <span class="date-badge">From your Sweetest 💖 sister 😘</span>
+        <h1 class="title-cinzel" style="font-size: 1.8rem;">🎁 BIRTHDAY SURPRISE 🎉</h1>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 6px;">
+          Enter the date code (0409)
+        </p>
+
+        <div class="pin-display-wrap">
+          <div class="pass-dots">
+            <div class="dot" id="dot-0"></div>
+            <div class="dot" id="dot-1"></div>
+            <div class="dot" id="dot-2"></div>
+            <div class="dot" id="dot-3"></div>
+          </div>
+
+          <div class="keypad">
+            <button class="key-btn" onclick="enterDigit('1')">1</button>
+            <button class="key-btn" onclick="enterDigit('2')">2</button>
+            <button class="key-btn" onclick="enterDigit('3')">3</button>
+            <button class="key-btn" onclick="enterDigit('4')">4</button>
+            <button class="key-btn" onclick="enterDigit('5')">5</button>
+            <button class="key-btn" onclick="enterDigit('6')">6</button>
+            <button class="key-btn" onclick="enterDigit('7')">7</button>
+            <button class="key-btn" onclick="enterDigit('8')">8</button>
+            <button class="key-btn" onclick="enterDigit('9')">9</button>
+            <button class="key-btn" style="font-size: 1rem;" onclick="resetPin()">CLR</button>
+            <button class="key-btn" onclick="enterDigit('0')">0</button>
+            <button class="key-btn" style="font-size: 1rem;" onclick="checkPin()">OK</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. MAIN CELEBRATION & 5 FLIP PHOTO CARDS -->
+    <section class="section-view" id="view-celebration">
+      <div class="glass-box">
+        <span class="date-badge">SEPTEMBER 4TH • Celebration</span>
+        <h1 class="title-cinzel" style="font-size: 2.5rem; color: #fff;">
+          🎉 Happy Birthday 🎉
+          <div style="font-size: 1.9rem; margin-top: 5px;">MADIHA APPI ❤️</div>
+        </h1>
+        <p style="color: var(--gold-light); font-size: 1.2rem; font-style: italic; margin-top: 8px;">
+          "May your life always be filled with happiness, laughter, success, good health, and endless smiles. You deserve all the love in the world. 💖"
+        </p>
+
+        <!-- Trait Flip Cards -->
+        <div class="memories-grid">
+          <div class="trait-card">
+            <div class="flip-inner">
+              <div class="flip-front">
+                <span style="font-size: 2.4rem;">✨</span>
+                <h3 style="margin-top: 12px; color: var(--gold-light); font-size: 1.1rem;">Grace & Poise</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">(Hover)</p>
+              </div>
+              <div class="flip-back" style="padding: 20px !important;">
+                <p style="font-size: 0.95rem; line-height: 1.6; color: #fdfbf7;">Your resilience and silent strength never fail to inspire everyone, blessed to have you.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="trait-card">
+            <div class="flip-inner">
+              <div class="flip-front">
+                <span style="font-size: 2.4rem;">🌙</span>
+                <h3 style="margin-top: 12px; color: var(--gold-light); font-size: 1.1rem;">Quiet Anchor</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">(Hover)</p>
+              </div>
+              <div class="flip-back" style="padding: 20px !important;">
+                <p style="font-size: 0.95rem; line-height: 1.6; color: #fdfbf7;">Through chaotic times, having you around brings an instant sense of calmness and grounding.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="trait-card">
+            <div class="flip-inner">
+              <div class="flip-front">
+                <span style="font-size: 2.4rem;">🌟</span>
+                <h3 style="margin-top: 12px; color: var(--gold-light); font-size: 1.1rem;">Radiant Future</h3>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 6px;">(Hover)</p>
+              </div>
+              <div class="flip-back" style="padding: 20px !important;">
+                <p style="font-size: 0.95rem; line-height: 1.6; color: #fdfbf7;">May every ambition, every dua, and every quiet dream you carry manifest with ease this year.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <a href="#photoGallery" class="btn-gold" style="padding: 10px 24px; font-size: 0.9rem; margin: 10px 0 35px;">
+          ↓ Scroll To Photo Memories ↓
+        </a>
+
+        <!-- 5 PHOTOS WITH QUOTE FRONT & IMAGE BACK -->
+        <div id="photoGallery" style="padding-top: 25px; border-top: 1px dashed var(--border-glass);">
+          <span class="date-badge">TIMELESS CHRONICLES</span>
+          <h2 class="title-cinzel" style="font-size: 1.8rem; margin-top: 5px;">📸 Our Beautiful Memories 📸</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;">Hover or tap any card to reveal the memory</p>
+
+          <div class="photo-flip-grid">
+            
+            <!-- Photo Card 1 -->
+            <div class="photo-flip-card">
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="front-quote-icon">🌸</div>
+                  <h4 class="front-quote-title">The Brightest Smile</h4>
+                  <p class="front-quote-text">
+                    "A genuine warmth that effortlessly turns any ordinary day into something comforting."
+                  </p>
+                  <span class="disclose-btn-badge">Disclose Memories ✦</span>
+                </div>
+                <div class="flip-back">
+                  <img src="images/photo1.jpeg" alt="Memory 1" style="object-position: center 15%;">
+                  <div class="photo-revealed-tag">Pure Light ✨</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo Card 2 -->
+            <div class="photo-flip-card">
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="front-quote-icon">💫</div>
+                  <h4 class="front-quote-title">Unspoken Bonds</h4>
+                  <p class="front-quote-text">
+                    "Laughter and shared moments that never required spoken words to truly understand."
+                  </p>
+                  <span class="disclose-btn-badge">Disclose Memories ✦</span>
+                </div>
+                <div class="flip-back" style="background: #140d28; display: flex; align-items: center; justify-content: center;">
+                  <img src="images/photo2.jpeg" alt="Memory 2" style="width: 100%; height: auto; max-height: 100%; object-fit: contain;">
+                  <div class="photo-revealed-tag">Cherished Forever 💖</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo Card 3 -->
+            <div class="photo-flip-card">
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="front-quote-icon">🌷</div>
+                  <h4 class="front-quote-title">Elegance In Silence</h4>
+                  <p class="front-quote-text">
+                    "Moving with unmatched quiet grace and carrying a heart that only emanates goodness."
+                  </p>
+                  <span class="disclose-btn-badge">Disclose Memories ✦</span>
+                </div>
+                <div class="flip-back">
+                  <img src="images/photo3.jpeg" alt="Memory 3" style="object-position: center 15%;">
+                  <div class="photo-revealed-tag">Dignity & Grace 💖</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo Card 4 -->
+            <div class="photo-flip-card">
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="front-quote-icon">🌟</div>
+                  <h4 class="front-quote-title">Endless Heights</h4>
+                  <p class="front-quote-text">
+                    "Stepping proudly into another chapter full of brilliance, goals, and answered prayers."
+                  </p>
+                  <span class="disclose-btn-badge">Disclose Memories ✦</span>
+                </div>
+                <div class="flip-back">
+                  <img src="images/photo4.jpeg" alt="Memory 4" style="object-position: center 15%;">
+                  <div class="photo-revealed-tag">Bound For Greatness 👑</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Photo Card 5 -->
+            <div class="photo-flip-card">
+              <div class="flip-inner">
+                <div class="flip-front">
+                  <div class="front-quote-icon">💫</div>
+                  <h4 class="front-quote-title">Precious Bond</h4>
+                  <p class="front-quote-text">
+                    "A bond of endless support, unconditional love, and memories that last a lifetime."
+                  </p>
+                  <span class="disclose-btn-badge">Disclose Memories ✦</span>
+                </div>
+                <div class="flip-back" style="background: #140d28; display: flex; align-items: center; justify-content: center;">
+                  <img src="images/photo5.jpeg" alt="Memory 5" style="width: 100%; height: auto; max-height: 100%; object-fit: contain;">
+                  <div class="photo-revealed-tag">Sisterhood In Warmth 👭</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <button class="btn-gold" onclick="goTo('view-scratch')">Unlock The Star Secret ➜</button>
+      </div>
+    </section>
+
+    <!-- 3. TOP SECRET SCRATCH CARD -->
+    <section class="section-view" id="view-scratch">
+      <div class="glass-box" style="max-width: 540px;">
+        <span class="date-badge">OFFICIAL NOTICE ⚠️</span>
+        <h2 class="title-cinzel" style="font-size: 1.7rem;">The Secret Scratch Voucher</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem;">Scratch off the golden seal to unlock your surprise reward!</p>
+
+        <div class="scratch-container">
+          <div class="secret-message">
+            <h4 style="color: var(--gold-light); font-size: 1.15rem; margin-bottom: 6px;">🎉 YOU WON: FREE TREAT! 🍕</h4>
+            <p style="color: #e5daf7; font-size: 0.92rem; line-height: 1.5; text-align: center;">
+              Congratulations! You are officially liable to give me a grand birthday treat! 😜
+            </p>
+          </div>
+          <canvas id="scratchCanvas" width="320" height="180"></canvas>
+        </div>
+
+        <!-- 2 Action Buttons -->
+        <div id="scratchActionButtons" style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 20px; opacity: 0.35; pointer-events: none; transition: opacity 0.3s;">
+          <button class="btn-gold" style="background: linear-gradient(135deg, #443b59, #2b233d); color: #e5daf7; border: 1px solid var(--border-glass);" onclick="openRefusalModal()">
+            I Don't Want To Give 🙅‍♀️
+          </button>
+          <button class="btn-gold" onclick="goTo('view-letter')">
+            Accept Fate & Continue 😈
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. VINTAGE PARCHMENT LETTER WITH STREAMING & BALLOONS -->
+    <section class="section-view" id="view-letter">
+      <div class="glass-box" style="max-width: 680px;">
+        <h2 class="title-cinzel" style="font-size: 1.8rem; margin-bottom: 15px;">A Letter Bound In Time</h2>
+
+        <!-- Envelope Trigger -->
+        <div id="envelopeTriggerZone" class="letter-envelope-state">
+          <div class="envelope-icon" onclick="openAndStreamLetter()">💌</div>
+          <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px;">
+            A sealed message has arrived for you...
+          </p>
+          <button class="btn-gold" style="margin-top: 15px;" onclick="openAndStreamLetter()">Open Letter 💌</button>
+        </div>
+
+        <!-- Word-by-word streaming target -->
+        <div id="parchmentSheet" class="parchment" style="display: none; min-height: 250px;">
+          <div id="letterStreamTarget" style="white-space: pre-line; line-height: 1.9;"></div>
+          <span id="typeCursor" class="typing-cursor"></span>
+        </div>
+
+        <button class="btn-gold" id="letterNextBtn" style="display: none; margin-top: 25px;" onclick="goTo('view-extra-surprise')">One More Surprise 🎁 ➜</button>
+      </div>
+    </section>
+
+    <!-- Floating Balloons Layer -->
+    <div id="balloonSky" class="balloon-layer"></div>
+
+    <!-- 5. ONE MORE SURPRISE PAGE (Interactive Gift Unwrap) -->
+    <section class="section-view" id="view-extra-surprise">
+      <div class="glass-box" style="max-width: 580px;">
+        <span class="date-badge">EXCLUSIVE BONUS</span>
+        <h1 class="title-cinzel" style="font-size: 2.1rem;">🎁 One More Surprise 🎁</h1>
+        
+        <div class="floating-poppers">
+          <span>🎁</span>
+          <span>🎁</span>
+        </div>
+
+        <div id="surpriseBox" class="surprise-gift-box" onclick="revealExtraSurprise()">
+          🎁
+        </div>
+        <p id="boxHintText" style="color: var(--text-muted); font-size: 0.95rem; margin-top: 10px; font-weight: 600;">
+          Tap the gift box to open! ✨
+        </p>
+
+        <!-- Revealed Content -->
+        <div id="surpriseRevealZone" style="display: none; animation: fadeIn 0.8s ease forwards; margin-top: 15px;">
+          <div style="font-size: 2.8rem; margin-bottom: 12px;">🎉 💖 🥳 🌸 💖</div>
+          <div style="font-size: 3.5rem; margin-bottom: 8px;">🎉</div>
+          
+          <h2 class="title-cinzel" style="font-size: 2rem; color: #fff; margin: 12px 0;">
+            HAPPY BIRTHDAY<br><span style="color: var(--gold-light);">MADIHA APPI 💖</span>
+          </h2>
+
+          <div style="font-size: 1.8rem; margin: 15px 0;">
+            💖 ✨ 🌷 💖 💐 💖
+          </div>
+
+          <button class="btn-gold" onclick="goTo('view-cake')">Time For The Cake 🎂 ➜</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CANDLE & CELEBRATION CAKE STAGE -->
+    <section class="section-view" id="view-cake">
+      <div class="glass-box" style="max-width: 600px;">
+        <span class="date-badge">🎂 CELEBRATION TIME 🎂</span>
+        <h2 class="title-cinzel" style="font-size: 1.9rem;">Happy Birthday Madiha Appi 🎂</h2>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">
+          Close your eyes, make a Dua and blow the candle... ✨
+        </p>
+
+        <!-- Two-Tier Cake with Mounted Candles -->
+        <div class="cake-wrapper" onclick="snuffCandle()" style="cursor: pointer;">
+          <div class="cake-candles-row">
+            <div class="cake-candle">
+              <div class="golden-flame flame-target"></div>
+            </div>
+            <div class="cake-candle">
+              <div class="golden-flame flame-target"></div>
+            </div>
+            <div class="cake-candle">
+              <div class="golden-flame flame-target"></div>
+            </div>
+          </div>
+
+          <div class="cake-layer-top"></div>
+          <div class="cake-layer-bottom"></div>
+          <div class="cake-base-plate"></div>
+        </div>
+
+        <p id="candleStatus" style="font-size: 1.1rem; color: var(--gold-light); min-height: 28px; font-weight: 600; margin-top: 15px;"></p>
+        
+        <button class="btn-gold" id="blowBtn" onclick="snuffCandle()">Blow Out Candle 🕯️</button>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- REFUSAL MODAL -->
+  <div class="modal-backdrop" id="refusalModal" onclick="closeRefusalModal()">
+    <div class="glass-box" style="max-width: 440px; border-color: #ff4d6d; box-shadow: 0 0 35px rgba(255, 77, 109, 0.4);" onclick="event.stopPropagation()">
+      <div style="font-size: 4rem; margin-bottom: 10px;">😡 😾</div>
+      <h2 class="title-cinzel" style="color: #ff6b8b; font-size: 1.6rem; margin-bottom: 10px;">ACTION PROHIBITED!</h2>
+      <p style="color: #ffffff; font-size: 1.05rem; font-weight: 700; margin-bottom: 12px;">
+        Nice try, but system error 404: "NO" option not found! 😤
+      </p>
+      <div style="background: rgba(255, 77, 109, 0.12); border: 1px dashed #ff4d6d; border-radius: 12px; padding: 14px; margin-bottom: 22px;">
+        <p style="font-size: 0.92rem; color: #ffccd5; line-height: 1.6;">
+          <strong>Terms & Conditions:</strong><br>
+          No refunds, no returns, and strictly no excuses accepted under Section 409 of Sisterhood Laws! 📜🚫
+        </p>
+      </div>
+      <button class="btn-gold" style="background: linear-gradient(135deg, #ff4d6d, #c9184a); color: white;" onclick="closeRefusalModal()">
+        Go Back 🥺
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // 1. STAR BACKGROUND
+    const canvas = document.getElementById('stars-canvas');
+    const ctx = canvas.getContext('2d');
+    let stars = [];
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      stars = [];
+      for (let i = 0; i < 90; i++) {
+        stars.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          radius: Math.random() * 1.6,
+          alpha: Math.random(),
+          speed: 0.005 + Math.random() * 0.015
+        });
+      }
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function renderStars() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let s of stars) {
+        s.alpha += s.speed;
+        if (s.alpha > 1 || s.alpha < 0) s.speed = -s.speed;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(230, 184, 100, ${Math.abs(s.alpha)})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(renderStars);
+    }
+    renderStars();
+
+    // 2. BACKGROUND MUSIC ENGINE
+    const bgAudio = document.getElementById('bgAudio');
+    const musicToggleBtn = document.getElementById('musicToggleBtn');
+    const musicIcon = document.getElementById('musicIcon');
+    let isPlaying = false;
+
+    function playMusic() {
+      if (!isPlaying) {
+        bgAudio.volume = 0.55;
+        bgAudio.play().then(() => {
+          isPlaying = true;
+          musicToggleBtn.classList.add('playing');
+          musicIcon.innerText = '🎶';
+        }).catch(() => {
+          // Audio will wait for click
+        });
+      }
+    }
+
+    function toggleAudio() {
+      if (isPlaying) {
+        bgAudio.pause();
+        isPlaying = false;
+        musicToggleBtn.classList.remove('playing');
+        musicIcon.innerText = '🔇';
+      } else {
+        bgAudio.play();
+        isPlaying = true;
+        musicToggleBtn.classList.add('playing');
+        musicIcon.innerText = '🎶';
+      }
+    }
+
+    // 3. STAGE NAVIGATION
+    function goTo(viewId) {
+      document.querySelectorAll('.section-view').forEach(v => v.classList.remove('active'));
+      const target = document.getElementById(viewId);
+      if (target) target.classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (viewId === 'view-scratch') initScratch();
+    }
+
+    // 4. PIN ENTRY (0409)
+    let currentCode = "";
+    const targetCode = "0409";
+
+    function enterDigit(d) {
+      if (currentCode.length < 4) {
+        currentCode += d;
+        updateDots();
+      }
+      if (currentCode.length === 4) {
+        setTimeout(checkPin, 200);
+      }
+    }
+    function resetPin() {
+      currentCode = "";
+      updateDots();
+    }
+    function updateDots() {
+      for (let i = 0; i < 4; i++) {
+        const dot = document.getElementById(`dot-${i}`);
+        if (i < currentCode.length) dot.classList.add('filled');
+        else dot.classList.remove('filled');
+      }
+    }
+    function checkPin() {
+      if (currentCode === targetCode) {
+        playMusic(); // Passcode solve hote hi auto-play music
+        confetti({ particleCount: 70, spread: 60, origin: { y: 0.6 } });
+        goTo('view-celebration');
+      } else {
+        navigator.vibrate?.(200);
+        resetPin();
+      }
+    }
+
+    // 5. GOLDEN SCRATCH CARD
+    let scratchInitialized = false;
+    function initScratch() {
+      if (scratchInitialized) return;
+      scratchInitialized = true;
+      const sCanvas = document.getElementById('scratchCanvas');
+      const sCtx = sCanvas.getContext('2d');
+
+      const grad = sCtx.createLinearGradient(0, 0, 320, 180);
+      grad.addColorStop(0, '#c79c3e');
+      grad.addColorStop(0.5, '#f4d887');
+      grad.addColorStop(1, '#a67d26');
+      sCtx.fillStyle = grad;
+      sCtx.fillRect(0, 0, 320, 180);
+
+      sCtx.font = 'bold 15px "Plus Jakarta Sans"';
+      sCtx.fillStyle = '#2d1f05';
+      sCtx.textAlign = 'center';
+      sCtx.fillText('★ SCRATCH FOR YOUR REWARD ★', 160, 95);
+
+      let isDrawing = false;
+      let clearedPixels = 0;
+
+      function scratch(e) {
+        if (!isDrawing) return;
+        const rect = sCanvas.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        const x = clientX - rect.left;
+        const y = clientY - rect.top;
+
+        sCtx.globalCompositeOperation = 'destination-out';
+        sCtx.beginPath();
+        sCtx.arc(x, y, 22, 0, Math.PI * 2);
+        sCtx.fill();
+
+        clearedPixels++;
+        if (clearedPixels > 35) {
+          const btnGroup = document.getElementById('scratchActionButtons');
+          if (btnGroup) {
+            btnGroup.style.opacity = "1";
+            btnGroup.style.pointerEvents = "auto";
+          }
+        }
+      }
+
+      sCanvas.addEventListener('mousedown', () => isDrawing = true);
+      window.addEventListener('mouseup', () => isDrawing = false);
+      sCanvas.addEventListener('mousemove', scratch);
+      sCanvas.addEventListener('touchstart', (e) => { isDrawing = true; scratch(e); });
+      window.addEventListener('touchend', () => isDrawing = false);
+      sCanvas.addEventListener('touchmove', scratch);
+    }
+
+    function openRefusalModal() {
+      document.getElementById('refusalModal').classList.add('open');
+    }
+    function closeRefusalModal() {
+      document.getElementById('refusalModal').classList.remove('open');
+    }
+
+    // 6. STREAMING LETTER LOGIC
+    const fullLetterMessage = 
+`💌 Dear Madiha Appi.......
+
+Today is your special day ❤️. May Allah bless you with endless happiness, success, good health and beautiful moments. Keep smiling always InshaAllah.
+
+Happy Birthday Madiha Appi 🎂
+
+❤️ Love you forever 💖`;
+
+    let letterStreamingStarted = false;
+
+    function openAndStreamLetter() {
+      if (letterStreamingStarted) return;
+      letterStreamingStarted = true;
+
+      document.getElementById('envelopeTriggerZone').style.display = 'none';
+      const parchment = document.getElementById('parchmentSheet');
+      parchment.style.display = 'block';
+
+      launchBalloons();
+
+      const target = document.getElementById('letterStreamTarget');
+      const cursor = document.getElementById('typeCursor');
+      const nextBtn = document.getElementById('letterNextBtn');
+      const words = fullLetterMessage.split(" ");
+      let wordIndex = 0;
+
+      const streamTimer = setInterval(() => {
+        if (wordIndex < words.length) {
+          target.innerText += (wordIndex === 0 ? "" : " ") + words[wordIndex];
+          wordIndex++;
+        } else {
+          clearInterval(streamTimer);
+          cursor.style.display = 'none';
+          nextBtn.style.display = 'inline-flex';
+          confetti({ particleCount: 70, spread: 80, origin: { y: 0.6 } });
+        }
+      }, 95);
+    }
+
+    function launchBalloons() {
+      const sky = document.getElementById('balloonSky');
+      sky.style.display = 'block';
+      const balloonEmojis = ['🎈', '🎈', '💖', '🎈', '✨', '🎈'];
+
+      for (let i = 0; i < 18; i++) {
+        setTimeout(() => {
+          const b = document.createElement('div');
+          b.className = 'floating-balloon';
+          b.innerText = balloonEmojis[Math.floor(Math.random() * balloonEmojis.length)];
+          b.style.left = (5 + Math.random() * 88) + 'vw';
+          b.style.animationDuration = (5 + Math.random() * 3) + 's';
+          sky.appendChild(b);
+
+          setTimeout(() => b.remove(), 7500);
+        }, i * 320);
+      }
+    }
+
+    // 7. ONE MORE SURPRISE REVEAL
+    let surpriseOpened = false;
+    function revealExtraSurprise() {
+      if (surpriseOpened) return;
+      surpriseOpened = true;
+      const box = document.getElementById('surpriseBox');
+      const hint = document.getElementById('boxHintText');
+      const reveal = document.getElementById('surpriseRevealZone');
+
+      box.style.transform = 'scale(1.3) rotate(-10deg)';
+      setTimeout(() => {
+        box.style.display = 'none';
+        hint.style.display = 'none';
+        reveal.style.display = 'block';
+
+        confetti({
+          particleCount: 140,
+          spread: 80,
+          origin: { y: 0.55 }
+        });
+      }, 350);
+    }
+
+    // 8. CANDLE BLOW ON CAKE
+    let blownOut = false;
+    function snuffCandle() {
+      if (blownOut) return;
+      blownOut = true;
+      
+      document.querySelectorAll('.flame-target').forEach(flame => {
+        flame.classList.add('flame-extinguished');
+      });
+
+      document.getElementById('candleStatus').innerText = "✨ Dua Granted InshaAllah 🤲💖";
+      const blowBtn = document.getElementById('blowBtn');
+      if (blowBtn) blowBtn.style.display = 'none';
+
+      confetti({
+        particleCount: 150,
+        spread: 110,
+        colors: ['#e6b864', '#ffffff', '#ff6b8b'],
+        origin: { y: 0.6 }
+      });
+    }
+  </script>
+</body>
+</html>
